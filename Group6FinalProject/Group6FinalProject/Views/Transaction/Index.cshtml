@@ -1,0 +1,75 @@
+@model IEnumerable<Group_6_Final_Project.Models.Transaction>
+@using System.Security.Claims
+
+@{
+    Layout = "_Layout";
+    string dateSortOrder = ViewBag.DateSortParm as string;
+    string arrowDate = dateSortOrder == "date_desc" ? "↑" : "↓"; // Flip arrow direction
+}
+
+<h1 style="margin-top: 20px;">Order History</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+    @*Make sure to remove the hardcoded line below*@
+    @*<a asp-action="Create" asp- -scheduleID="8">Create Transaction</a>
+        </p>*@
+<p>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Order Date <span class="sort-arrow" onclick="sortTable('@dateSortOrder')">@arrowDate</span>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PurchaseStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PopcornPoints)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransactionTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConfirmNumber)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TransactionDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PurchaseStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PopcornPoints)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TransactionTotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ConfirmNumber)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.TransactionID">Details</a>
+                    @if (User.IsInRole("Manager"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.TransactionID">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.TransactionID">Delete</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>function sortTable(sortOrder) {
+        window.location.href = '?sortOrder=' + sortOrder;
+    }</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>

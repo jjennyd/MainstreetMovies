@@ -1,0 +1,61 @@
+@model Group_6_Final_Project.Models.Review
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "_Layout";
+}
+
+<h1>Review Details</h1>
+<hr />
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Movies.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Movies.Title)
+        </dd>
+        </dt>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Rating)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Rating)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        @if (User.IsInRole("Manager") || User.IsInRole("Employee"))
+        {
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.UserID)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.UserID)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Movies)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Movies.MovieID)
+            </dd>
+        }
+    </dl>
+</div>
+
+<hr />
+<div>
+    <a asp-action="Edit" class="btn btn-danger" asp-route-id="@Model?.ReviewID">Edit</a> |
+    <a asp-action="Index" class="btn btn-danger">Back to List</a>
+</div>

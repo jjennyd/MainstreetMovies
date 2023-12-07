@@ -1,0 +1,68 @@
+@model Group_6_Final_Project.Models.Transaction
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "_Layout";
+}
+
+<h1>Edit</h1>
+
+<h4>
+    Edit Transaction</h2>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="TransactionID" />
+                <div class="form-group">
+                    <label asp-for="TransactionNote" class="control-label"></label>
+                    @Html.DisplayFor(Model => Model.TransactionNumber, new { @class = "form-control" })
+                </div>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.AppUser.FullName)
+            </dt>
+            <dd class="col-sm-10">
+                @User.Identity.Name
+            </dd>
+            <div class="form-group">
+                <label asp-for="TransactionDate" class="control-label"></label>
+                @Html.DisplayFor(Model => Model.TransactionDate, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label asp-for="TransactionNote" class="control-label"></label>
+                <input asp-for="TransactionNote" class="form-control" />
+                <span asp-validation-for="TransactionNote" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-success" />
+            </div>
+            </form>
+        </div>
+    </div>
+    <h5>Tickets on this Order</h5>
+    <table class="table table-primary">
+        <tr>
+            <th>Movie Title</th>
+            <th>Start Time</th>
+            <th>Theatre</th>
+            <th>Ticket Price</th>
+            <th>Seat Selection</th>
+        </tr>
+        @foreach (var transactionDetail in Model.TransactionDetail)
+        {
+            <tr>
+                <td>@transactionDetail.Schedule.Movie.Title</td>
+                <td>@transactionDetail.Schedule.StartTime.ToString("HH:mm tt")</td>
+                <td>@transactionDetail.Schedule.Theatre</td>
+                <td>@transactionDetail.SchedulePrice</td>
+                <td>@transactionDetail.SeatSelection</td>
+            </tr>
+        }
+    </table>
+    <div>
+        <a asp-action="Index" class="btn btn-info">Back to List</a>
+        <a asp-action="Create" asp-controller="TransactionDetails" asp-route-transactionID="@Model.TransactionID" class="btn btn-warning">Add Another Item</a>
+        <a asp-action="Index" asp-controller="TransactionDetails" asp-route-transactionID="@Model.TransactionID" class="btn btn-danger">Edit Existing Items</a>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>

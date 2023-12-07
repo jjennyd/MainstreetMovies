@@ -1,0 +1,34 @@
+@model IEnumerable<Group_6_Final_Project.Models.AppDateTime>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Global Time</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GlobalTime)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.AppDateTimeId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.AppDateTimeId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.AppDateTimeId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

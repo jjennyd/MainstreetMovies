@@ -1,0 +1,81 @@
+﻿@model Group_6_Final_Project.Models.SearchViewModel
+
+@{
+    ViewData["Title"] = "Detailed Search";
+    Layout = "_Layout";
+}
+
+<h1>Detailed Search</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" asp-action="DisplaySearchResults" asp-controller="Movie">
+            <div class="text-danger validation-summary-valid" asp-validation-summary="All" data-valmsg-summary="true">
+                <ul>
+                    <li style="display:none"></li>
+                </ul>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="SearchTitle">Search by Title:</label>
+                <input class="form-control" asp-for="SearchTitle" />
+                <span asp-validation-for="SearchTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="SearchDescription">Search by Description:</label>
+                <input class="form-control" asp-for="SearchDescription" />
+                <span asp-validation-for="SearchDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="SearchActors">Search by Actors:</label>
+                <input class="form-control" asp-for="SearchActors" />
+                <span asp-validation-for="SearchActors" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="SelectedGenreID">Search by Genre:</label>
+                <select class="form-control" asp-for="SelectedGenreID" asp-items="@(ViewBag.GenreList as SelectList)"></select>
+                <span asp-validation-for="SelectedGenreID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="SelectedYear">Search by Published Year:</label>
+                <input class="form-control" type="text" asp-for="SelectedYear" />
+                <span asp-validation-for="SelectedYear" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="SearchType">Search Type:</label>&nbsp;
+                <input type="radio" value="GreaterThan" checked="checked" data-val="true" data-val-required="The Search Type (Year): field is required." id="SearchTypeYearGreaterThan" name="SearchTypeYear" /> Greater Than &nbsp; &nbsp;
+                <input type="radio" value="LessThan" id="SearchTypeYearLessThan" name="SearchTypeYear" /> Less Than
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="SelectedRuntime">Runtime:</label>
+                <input class="form-control" type="text" asp-for="SelectedRuntime" />
+                <span asp-validation-for="SelectedRuntime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="SelectedRuntime">Search Type:</label>&nbsp;
+                <input type="radio" value="GreaterThan" checked="checked" data-val="true" data-val-required="The Search Type (Runtime): field is required." id="SearchTypeRuntimeGreaterThan" name="SearchTypeRuntime" /> Greater Than &nbsp; &nbsp;
+                <input type="radio" value="LessThan" id="SearchTypeRuntimeLessThan" name="SearchTypeRuntime" /> Less Than
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="SelectedYear">Search by User Rating:</label>
+                <input class="form-control" type="text" asp-for="SelectedRating" />
+                <span asp-validation-for="SelectedRating" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="SelectedRating">Search Type:</label>&nbsp;
+                <input type="radio" value="GreaterThan" checked="checked" data-val="true" data-val-required="The Search Type (Rating): field is required." id="SearchTypeRatingGreaterThan" name="SearchTypeRating" /> Greater Than &nbsp; &nbsp;
+                <input type="radio" value="LessThan" id="SearchTypeRatingLessThan" name="SearchTypeRating" /> Less Than
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>

@@ -1,0 +1,85 @@
+﻿@model Group_6_Final_Project.Models.IndexViewModel
+@{
+    Layout = "_Layout";
+}
+
+<div>
+    <br />
+    <h1>My Account</h1>
+    <br />
+
+    <h5>Login Information</h5>
+    <table class="table table-bordered">
+        <tr>
+            <th>Email</th>
+            <th>Password</th>
+        </tr>
+        <tr>
+            <td>@Model.Email</td>
+            <td>[@Html.ActionLink("Change your password", "ChangePassword")]</td>
+        </tr>
+    </table>
+
+    <h5>Personal Information</h5>
+    <table class="table table-bordered">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Phone Number</th>
+            <th>Date of Birth</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td>@Model.FirstName</td>
+            <td>@Model.LastName</td>
+            <td>@Model.PhoneNumber</td>
+            <td>@Model.DateOfBirth</td>
+            <td>[@Html.ActionLink("Edit", "EditProfile")]</td>
+        </tr>
+    </table>
+
+    <h5>Address Information</h5>
+    <table class="table table-bordered">
+        <tr>
+            <th>Address Line 1</th>
+            <th>Address Line 2</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Zipcode</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td>@Model.AddressLine1</td>
+            <td>@Model.AddressLine2</td>
+            <td>@Model.City</td>
+            <td>@Model.State</td>
+            <td>@Model.Zip</td>
+            <td>[@Html.ActionLink("Edit", "EditProfile")]</td>
+        </tr>
+    </table>
+
+    <div class="popcorn-points-container">
+        <div class="popcorn-points-bar" style="width: @Model.TotalPopcornPoints%">
+            @Model.TotalPopcornPoints Popcorn Points
+        </div>
+    </div>
+
+    @section Styles {
+        <style>
+            .popcorn-points-container {
+                width: 50%;
+                background-color: #eee;
+                border: 1px solid #ccc;
+            }
+
+            .popcorn-points-bar {
+                width: 0; /* Initial width */
+                height: 30px; /* Adjust as needed */
+                background-color: #4CAF50;
+                text-align: center;
+                line-height: 30px; /* Same as height */
+                color: white;
+            }
+        </style>
+    }
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>

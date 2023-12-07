@@ -1,0 +1,127 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title</title>
+    <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    @RenderSection("Styles", required: false)
+
+    <!-- Add these lines in the head section of your layout file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-NkOM+Azl2neMw5C08unNOu3NVh+8CS+aEmD5VKgd5al+De+1c+sVcFkML8C5Dl/Im6Llr27eYc+G6v8mON6X4A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="~/Img/Logo.png" alt="" width="50" height="50" class="d-inline-block align-text-center">
+                Mainstreet Movies
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <!-- Navigation for authenticated users -->
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Movie" asp-action="Index">Movies</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Schedule" asp-action="Index">Now Playing</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <!-- Navigation for non-authenticated users -->
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Movie" asp-action="Index">Movies</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Schedule" asp-action="Index">Now Playing</a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Manager"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Manager" asp-action="Index">Manager Menu</a>
+                        </li>
+                    }
+
+                </ul>
+
+                <div class="d-flex">
+                    <form class="d-flex me-2" asp-action="Index" asp-controller="Movie" method="get">
+                        <input class="form-control" type="text" name="searchString" id="SearchString" placeholder="Search" aria-label="Search" />
+                        <button class="btn btn-light" type="submit">Search</button>
+                    </form>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <!-- Navigation for authenticated users -->
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    @User.Identity.Name!
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="/Account">Account</a></li>
+                                    <li><a class="dropdown-item" href="~/Transaction">Order History</a></li>
+                                    @if (User.IsInRole("Manager"))
+                                    {
+                                        <li><a class="dropdown-item" href="/Manager">Menu</a></li>
+                                    }
+                                    else if (User.IsInRole("Employee"))
+                                    {
+                                        <li><a class="dropdown-item" href="Manager">Menu</a></li>
+                                    }
+                                    else if (User.IsInRole("Customer"))
+                                    {
+                                        <li><a class="dropdown-item" asp-controller="Review" asp-action="Index">Movie Reviews</a></li>
+                                    }
+                                    <li><hr class="dropdown-divider"></li>
+                                    <form asp-action="LogOff" asp-controller="Account" method="post" id="logoutForm">
+                                    <li><a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()">Log Off</a></li>
+                                    </form>
+                                </ul>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <!-- Navigation for non-authenticated users -->
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Account
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="/Account/Register">Sign Up</a></li>
+                                    <li><a class="dropdown-item" href="/Account/Login">Login</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        @RenderBody()
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-h8Cgs/O1icB2U//rCFPpMg7WrR1PWe1lqWITMdb2mYZSHj6ijO5x5LD/FJwZ3vwkUzPpoCIH7CrYyReDOt9kBg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

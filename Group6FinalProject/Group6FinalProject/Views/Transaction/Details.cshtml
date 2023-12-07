@@ -1,0 +1,97 @@
+@model Group_6_Final_Project.Models.Transaction
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "_Layout";
+}
+
+<div>
+    <h2>@Model.TransactionDetail.FirstOrDefault()?.Schedule.Movie.Title</h2>
+
+    <hr />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AppUser.FullName)
+        </dt>
+        <dd class="col-sm-10">
+            @User.Identity.Name
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TransactionNote)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.TransactionNote
+        </dd>
+    </dl>
+
+    <h5>Tickets on this Order</h5>
+    <table class="table table-primary">
+        <tr>
+            <th>Movie Title</th>
+            <th>Start Time</th>
+            <th>Theatre</th>
+            <th>Ticket Price</th>
+            <th>Seat Selection</th>
+        </tr>
+        @foreach (var transactionDetail in Model.TransactionDetail)
+        {
+            <tr>
+                <td>@transactionDetail.Schedule.Movie.Title</td>
+                <td>@transactionDetail.Schedule.StartTime.ToString("HH:mm tt")</td>
+                <td>@transactionDetail.Schedule.Theatre</td>
+                <td>@transactionDetail.SchedulePrice</td>
+                <td>@transactionDetail.SeatSelection</td>
+            </tr>
+        }
+    </table>
+
+    <h5>Order Summary</h5>
+    <table class="table table-sm table-bordered" style="width:30%">
+        <tr>
+            <th colspan="2" style="text-align:center">Order Summary</th>
+        </tr>
+        <tr>
+            <td>Order Subtotal:</td>
+            <td>@Html.DisplayFor(model => model.TransactionSubtotal)</td>
+        </tr>
+        <tr>
+            <td>Tax:</td>
+            <td>@Html.DisplayFor(model => model.TransactionTax)</td>
+        </tr>
+        <tr>
+            <td>Order Total:</td>
+            <td>@Html.DisplayFor(model => model.TransactionTotal)</td>
+        </tr>
+    </table>
+
+    <div>
+        @if (Model.PurchaseStatus == PurchaseStatus.Pending)
+        {
+            <form asp-action="ConfirmPurchase" method="post">
+                <input type="hidden" asp-for="TransactionID" />
+                <button type="submit" class="btn btn-primary">Confirm Purchase</button>
+            </form>
+        }
+        @if (Model.PurchaseStatus == PurchaseStatus.Purchased)
+        {
+            var currentTime = DateTime.Now;
+            var movieStartTime = Model.TransactionDetail.FirstOrDefault()?.Schedule.StartTime;
+
+            if (movieStartTime != null && currentTime > movieStartTime)
+            {
+                <a asp-action="Create" asp-controller="Review" class="btn btn-danger" asp-route-MovieID="@Model.TransactionDetail.FirstOrDefault()?.Schedule.Movie.MovieID">Write a Review</a>
+                <br />
+            }
+            <br />
+            <form asp-action="CancelPurchase" method="post">
+                <input type="hidden" asp-for="TransactionID" />
+                <button type="submit" class="btn btn-danger">Cancel Purchase</button>
+            </form>
+        }
+        <br />
+        <a asp-action="Edit" asp-route-id="@Model.TransactionID">Edit</a> |
+        <a asp-action="Index" class="btn btn-danger">Back to List</a>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>

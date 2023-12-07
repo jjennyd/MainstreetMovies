@@ -1,0 +1,116 @@
+@model IEnumerable<Group_6_Final_Project.Models.Movie>
+
+@{
+    Layout = "_Layout";
+    bool isAdmin = User.IsInRole("Manager");
+}
+
+<h1>Movies</h1>
+<form asp-action="Index" asp-controller="Movie" method="get">
+    <div class="form-group">
+        <label for="SearchString">Search:</label>
+        <input type="text" name="searchString" id="SearchString" class="form-control" value="@ViewBag.SearchString" />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
+
+<a asp-action="DetailedSearch" class="btn btn-success">Detailed Search</a>
+<a asp-action="Index" class="btn btn-danger">Show All</a>
+<p>
+    <div>
+        <p>Displaying @ViewBag.CurrentlyShowingMovies out of @ViewBag.TotalMovieCount Movie</p>
+    </div>
+    @if (isAdmin)
+    {
+        <a asp-action="Create">Create New</a>
+    }
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Genre.GenreType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MPAARating)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PublishedDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Runtime)
+                </th>
+                <th>
+                    Avg. Customer Rating
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Genre.GenreType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MPAARating)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PublishedDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Runtime)
+                    </td>
+                    <td>
+                        @{
+                            double rating;
+                            if (ViewBag.AverageRatings != null && ViewBag.AverageRatings.ContainsKey(item.MovieID))
+                            {
+                                rating = ViewBag.AverageRatings[item.MovieID];
+                            }
+                            else
+                            {
+                                rating = 0.0;
+                            }
+
+                            // Display "N/A" when rating is 0.0, otherwise round to two decimal places
+                            string formattedRating = rating == 0.0 ? " " : rating.ToString("0.0");
+                        }
+
+                        <text>@formattedRating</text>
+                    <td>
+                        <div class="d-flex justify-content-between">
+                            <!-- Details Button -->
+                            <a asp-controller="Movie" asp-action="Details" asp-route-id="@item.MovieID" class="btn btn-danger">Details</a>
+
+                            <!-- Space Separator -->
+                            <span class="mx-2"> </span>
+
+                            <!-- View Showtime Button -->
+                            <a asp-controller="Schedule" asp-action="Index" asp-route-movieId="@item.MovieID" class="btn btn-danger">Showtimes</a>
+
+                        </div>
+
+                        @if (User.IsInRole("Manager"))
+                        {
+                            <p>
+                                <a asp-action="Edit" asp-route-id="@item.MovieID">Edit</a> |
+                                <a asp-action="Delete" asp-route-id="@item.MovieID">Delete</a>
+                            </p>
+                        }
+                    </td>
+
+
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</p>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>

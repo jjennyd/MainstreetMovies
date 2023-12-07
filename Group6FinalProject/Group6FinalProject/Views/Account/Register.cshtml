@@ -1,0 +1,126 @@
+﻿@model RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "_LayoutAccount";
+
+}
+
+<style>
+    .login-side {
+        background-color: #e03444; /* Your desired color code */
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 90vh;
+        width: 45%;
+    }
+
+    .signup-side {
+        flex-direction: column;
+        justify-content: center;
+        height: 90vh;
+    }
+</style>
+</div>
+<div class="row">
+    <div class="col-md-6 login-side d-flex">
+        <h1>Welcome Back</h1>
+        <p>To continue earning rewards and offers–login.</p>
+        <a asp-controller="Account" asp-action="Login" class="btn btn-secondary rounded-pill" style="background-color: white; color: #C32435; border: none; padding: 15px 30px;">Sign In</a>
+    </div>
+    <div class="col-md-6 signup-side d-flex">
+        <form asp-action="Register" method="post">
+            <h1>Create Account</h1>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- First Name -->
+            <div class="form-group mb-3">
+                <input asp-for="FirstName" class="form-control" placeholder="First Name" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            <!-- Last Name -->
+            <div class="form-group mb-3">
+                <input asp-for="LastName" class="form-control" placeholder="Last Name" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group mb-3">
+                <input asp-for="Email" class="form-control" placeholder="Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <!-- Phone Number -->
+            <div class="form-group mb-3">
+                <input asp-for="PhoneNumber" class="form-control" placeholder="Phone Number" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+
+
+            <!-- Date of Birth -->
+            <div class="form-group mb-3">
+                <label class="control-label">Date of Birth</label> <!-- Static title for Date of Birth -->
+                <input asp-for="DateOfBirth" class="form-control" placeholder="Date of Birth" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+
+            <!-- Address Line 1 and Address Line 2 on the same line -->
+            <div class="form-group mb-3">
+                <div class="row">
+                    <div class="col">
+                        <input asp-for="AddressLine1" class="form-control" placeholder="Address Line 1" />
+                        <span asp-validation-for="AddressLine1" class="text-danger"></span>
+                    </div>
+                    <div class="col">
+                        <input asp-for="AddressLine2" class="form-control" placeholder="Address Line 2" />
+                        <span asp-validation-for="AddressLine2" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- City, State, and Zip on the same line -->
+            <div class="form-group mb-3">
+                <div class="row">
+                    <div class="col">
+                        <input asp-for="City" class="form-control" placeholder="City" />
+                        <span asp-validation-for="City" class="text-danger"></span>
+                    </div>
+                    <div class="col">
+                        <input asp-for="State" class="form-control" placeholder="State" />
+                        <span asp-validation-for="State" class="text-danger"></span>
+                    </div>
+                    <div class="col">
+                        <input asp-for="Zip" class="form-control" placeholder="Zip" />
+                        <span asp-validation-for="Zip" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Password -->
+            <div class="form-group mb-3">
+                <input asp-for="Password" class="form-control" placeholder="Password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group mb-3">
+                <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <br />
+
+            <!-- Register Button -->
+            <div class="form-group">
+                <input type="submit" value="Register" class="btn btn-primary rounded-pill" style="background-color: #C32435; color: white; border: none; padding: 15px 30px;" />
+            </div>
+        </form>
+
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>

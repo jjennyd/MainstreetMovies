@@ -1,0 +1,56 @@
+﻿@model LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "_LayoutLogin";
+
+}
+<style>
+    .signup-side {
+        background-color: #e03444; /* Your desired color code */
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 90vh;
+        width: 45%;
+    }
+
+    .login-side {
+        flex-direction: column;
+        justify-content: center;
+        height: 90vh;
+    }
+</style>
+</div>
+<div class="row">
+    <div></div>
+    <!-- Left column for "Log In" -->
+    <div class="col-md-6 login-side d-flex ms-auto me-auto">
+        <h1>Login</h1>
+        <hr />
+        <form asp-action="Login" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group mb-3">
+                <input asp-for="Email" class="form-control" placeholder="Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <input asp-for="Password" class="form-control" placeholder="Password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Login" class="btn btn-primary rounded-pill" style="background-color: #C32435; color: white; border: none; padding: 15px 30px;" />
+            </div>
+        </form>
+    </div>
+    <!-- Right column for "Are you new here" -->
+    <div class="col-md-6 signup-side d-flex mr-0">
+        <h2>Are you new here?</h2>
+        <p>Sign up to earn exclusive rewards and offers!</p>
+        <a asp-controller="Account" asp-action="Register" class="btn btn-secondary rounded-pill" style="background-color: white; color: #C32435; border: none; padding: 15px 30px;">Sign Up</a>
+    </div>
+</div>
+    </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>

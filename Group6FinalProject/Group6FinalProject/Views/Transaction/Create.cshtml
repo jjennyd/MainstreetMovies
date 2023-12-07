@@ -1,0 +1,64 @@
+@model Group_6_Final_Project.Models.Transaction
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_Layout";
+}
+
+<br />
+<h1>Create Movie Order</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="movieId" value="@ViewBag.SelectedMovieID" />
+            <input type="hidden" name="scheduleId" value="@ViewBag.SelectedScheduleID" />
+
+            <!-- Pre-filled Movie Title -->
+            <p>
+                <div class="form-group">
+                    <label style="font-weight: bold;">Movie Title:</label>
+                    <br />
+                    @ViewBag.SelectedMovieTitle
+                </div>
+            </p>
+
+            <!-- Pre-filled Schedule Time -->
+            <p>
+                <div class="form-group">
+                    <label style="font-weight: bold;">Schedule Movie Time:</label>
+                    <br />
+                    @ViewBag.SelectedScheduleTime
+                </div>
+            </p>
+
+            <!-- Display Schedule ID -->
+            <p>
+                <div class="form-group">
+                    <label style="font-weight: bold;">Schedule ID:</label>
+                    <br />
+                    <input type="text" id="scheduleIdInput" value="@ViewBag.SelectedScheduleID" readonly />
+                    <button onclick="copyScheduleId()">Copy</button>
+                </div>
+            </p>
+
+            <script>function copyScheduleId() {
+        var scheduleIdInput = document.getElementById("scheduleIdInput");
+        scheduleIdInput.select();
+        document.execCommand("copy");
+        alert("Schedule ID copied to clipboard!");
+    }</script>
+
+            <!-- Submit Button -->
+            <div class="form-group">
+                <input type="submit" value="Choose Seats" class="btn btn-danger" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<hr />
+<div>
+    <a asp-action="Index" asp-controller="Movie" class="btn btn-danger">Back to List</a>
+</div>

@@ -1,0 +1,54 @@
+@model IEnumerable<Group_6_Final_Project.Models.TransactionDetail>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_Layout";
+
+
+}
+
+<h1>Index</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Schedule.Movie.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SeatSelection)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SchedulePrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExtendedPrice)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Schedule.Movie.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SeatSelection)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SchedulePrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExtendedPrice)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.TransactionDetailID">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.TransactionDetailID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>

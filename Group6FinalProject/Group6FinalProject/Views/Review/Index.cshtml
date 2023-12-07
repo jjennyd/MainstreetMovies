@@ -1,0 +1,94 @@
+@model IEnumerable<Group_6_Final_Project.Models.Review>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_Layout";
+}
+
+@if (User.IsInRole("Customer"))
+{
+    <br />
+    <h1>Your Reviews</h1>
+    <hr />
+}
+else
+{
+    <br />
+    <h1>All Reviews</h1>
+    <hr />
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Movies.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            @if (User.IsInRole("Manager") && (User.IsInRole("Employee")))
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Movies.MovieID)
+                </th>
+            }
+            else if (User.IsInRole("Customer"))
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+            }
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Movies.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                @if (User.IsInRole("Manager") && (User.IsInRole("Employee")))
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Movies.MovieID)
+                    </td>
+                }
+                else if (User.IsInRole("Customer"))
+                {
+                    <th>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </th>
+                }
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ReviewID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ReviewID">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>

@@ -1,0 +1,107 @@
+@model Group_6_Final_Project.Models.Review
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "_Layout";
+}
+
+<br />
+<h1>Edit Review</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ReviewID" />
+            <p>
+                <div class="form-group">
+                    <label asp-for="MovieID" class="control-label" style="font-weight: bold;">Movie Title:</label>
+                    <input asp-for="MovieID" type="hidden" />
+                    <span>@ViewBag.MovieTitle</span>
+                </div>
+            </p>
+
+            <p>
+                <div class="form-group">
+                    <label class="control-label" style="font-weight: bold;">Rating:</label>
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <label class="radio-inline">
+                            <input type="radio" asp-for="Rating" value="@i" /> @i
+                        </label>
+                    }
+                    <span asp-validation-for="Rating" class="text-danger"></span>
+                </div>
+            </p>
+
+            <p>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" class="form-control" maxlength="280" id="descriptionTextArea" oninput="updateCharacterCount(this)"></textarea>
+                    <span id="descriptionCount" class="text-muted">280 characters remaining</span>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </p>
+
+            <div class="form-group d-none">
+                <label asp-for="UserID" class="control-label" style="font-weight: bold;"></label>
+                <input asp-for="UserID" class="form-control" />
+                <span asp-validation-for="UserID" class="text-danger"></span>
+            </div>
+            <div class="form-group d-none">
+                <label asp-for="MovieID" class="control-label"></label>
+                <select asp-for="MovieID" class="form-control" asp-items="ViewBag.MovieID"></select>
+                <span asp-validation-for="MovieID" class="text-danger"></span>
+            </div>
+
+            <!--Manager/Employee Functionalities-->
+            @if (User.IsInRole("Manager") || User.IsInRole("Employee"))
+            {
+                <div class="form-group">
+                    <label asp-for="Status" class="control-label" style="font-weight: bold;">Status:</label>
+                    @Html.DropDownListFor(model => model.Status, Enum.GetValues(typeof(Status)).Cast<Status>().Select(x => new SelectListItem { Text = x.ToString(), Value = x.ToString() }), "Select Status", new { @class = "form-control" })
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserID" class="control-label" style="font-weight: bold;"></label>
+                    <input asp-for="UserID" class="form-control" disabled />
+                    <span asp-validation-for="UserID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MovieID" class="control-label" style="font-weight: bold;"></label>
+                    <select asp-for="MovieID" class="form-control" asp-items="ViewBag.MovieID" disabled></select>
+                    <span asp-validation-for="MovieID" class="text-danger"></span>
+                </div>
+            }
+            else if (User.IsInRole("Customer"))
+            {
+                <p>
+                    <div class="form-group">
+                        <label asp-for="Status" class="control-label" style="font-weight: bold;">Status:</label>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Status)
+                        </dd>
+                    </div>
+                </p>
+            }
+
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-danger" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<hr />
+<div>
+    <a asp-action="Index" class="btn btn-danger">Back to List</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+<!--Changing the value for characters remaining in description-->
+<script>function updateCharacterCount(textarea) {
+        var remainingChars = textarea.maxLength - textarea.value.length;
+        document.getElementById('descriptionCount').textContent = remainingChars + " characters remaining";
+    }</script>
